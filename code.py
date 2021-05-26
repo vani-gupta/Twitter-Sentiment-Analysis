@@ -15,10 +15,10 @@ plt.style.use('dark_background')
 #DATA EXTRACTION
 
 #api variables
-consumerKey = '79mgkI86A8DNg2v1tKmzITH4F'
-consumerSecret = 'S6c8LTVYqRIGafJ7ZK5cPmoO1UtPJflk1qtsRh7aiufuD0TmSw'
-accessToken = '1396109358472204294-kPER4XQo8w5JE17vXYO0ISfvuT1dq4'
-accessTokenSecret = 'IfG38xxcIfsgAzLHQmRKLFBfzzFeCa1ihJl55DoX28MRH'
+consumerKey = ' '
+consumerSecret = ' '
+accessToken = ' '
+accessTokenSecret = ' '
 
 #authentication of twitter app
 authenticate = tweepy.OAuthHandler(consumerKey, consumerSecret)
