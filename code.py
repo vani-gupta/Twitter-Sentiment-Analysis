@@ -27,18 +27,17 @@ api=tweepy.API(authenticate, wait_on_rate_limit=True)
 
 #extracting relevant tweets
 search_term = 'bitcoin -filter:retweets'
-tweets = tweepy.Cursor(api.search, q=search_term, lang='en', since= '2021-04-01', tweet_mode= 'extended').items(1000)
+tweets = tweepy.Cursor(api.search, q=search_term, lang='en', since= '2021-04-01', until = '2021-04-30', tweet_mode= 'extended').items(1000)
 all_tweets = [tweet.full_text for tweet in tweets]
 
 df = pd.DataFrame(all_tweets, columns=['Tweets'])
-#print(df)
 
 #PREPROCESSING
 
 def cleanTwt(t):
     t=HTMLParser().unescape(t)   #remove HTML characters
     t = re.sub(r'https?:\/\/.\S+', "", t)  #remove hyperlinks
-    t = re.sub(r'#', '', t)   #remove hashtags
+    t = re.sub([^A-Za-z0-9 ], "", t)   #remove special characters
     t = " ".join([s for s in re.split("([A-Z][a-z]+[^A-Z]*)",t) if s])   #splitting joint words
     t = t.lower()
     t = ''.join(''.join(s)[:2] for _, s in itertools.groupby(t))   #standardizing - one letter should not be present more than twice consecutively
@@ -46,9 +45,6 @@ def cleanTwt(t):
     return t
 
 df['Cleaned_Tweets'] = df['Tweets'].apply(cleanTwt)
-print(df)
-df.to_csv('C:/Users/ip330s/Desktop/IT/Lab Docs/bitcoin/output.csv',encoding='utf-8')
-
 
 #FEATURE EXTRACTION AND SELECTION
 
@@ -94,6 +90,7 @@ def getSen(val):
         return 'Neutral'
 
 df['Sentiment'] = df['Polarity'].apply(getSen)
+df.to_csv('path',encoding='utf-8')
 
 #plotting bar graph
 df['Sentiment'].value_counts().plot(kind='bar')
