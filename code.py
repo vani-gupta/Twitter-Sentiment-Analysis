@@ -7,6 +7,9 @@ import itertools
 from autocorrect import Speller
 from textblob import TextBlob
 import matplotlib.pyplot as plt
+from nltk.corpus import stopwords
+
+cachedStopWords = stopwords.words('english')
 
 spell = Speller(lang='en')
 plt.style.use('dark_background')
@@ -42,6 +45,7 @@ def cleanTwt(t):
     t = t.lower()
     t = ''.join(''.join(s)[:2] for _, s in itertools.groupby(t))   #standardizing - one letter should not be present more than twice consecutively
     t = spell(t)   #spellcheck
+    twt = ' '.join([word for word in twt.split() if word not in cachedStopWords])  #removing stop words
     return t
 
 df['Cleaned_Tweets'] = df['Tweets'].apply(cleanTwt)
